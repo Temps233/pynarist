@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pynarist"
+version = "0.1.1"
+description = "A Python library for parsing and building binary data."
+authors = ["Temps233 <temps233@outlook.com>"]
+license = "Apache-2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.29.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

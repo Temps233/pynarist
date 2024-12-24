@@ -1,0 +1,39 @@
+name: unittest
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+      - name: Build dist and test with unittest
+        run: |
+          python -m build
+          if (Test-Path -Path '.\requirements-test.txt' -PathType Leaf) {pip install -r requirements-test.txt}
+          pip install (Get-ChildItem dist/*.whl)
+          python -m unittest
+      - name: Generate coverage report
+        run: |
+          coverage run --source pynarist --parallel-mode -m unittest
+          coverage combine
+          coverage xml -i
+        env:
+          COVERAGE_RUN: True
+      - name: Upload report to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
