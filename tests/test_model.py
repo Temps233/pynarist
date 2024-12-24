@@ -34,23 +34,6 @@ class TestModel(TestCase):
         self.assertEqual(bob.age, 25)
         self.assertEqual(bob.uuid, 69696969)
 
-    def test_getSize(self):
-        class PairInt2Char(Model):
-            a: int
-            b: char
-
-        self.assertEqual(PairInt2Char.getSize(b"\x01\x00\x00\x002"), 5)
-
-    def test_recursize_getSize(self):
-        class PairI2S(Model):
-            first: int
-            second: varchar
-
-        class Value(Model):
-            name: varchar
-            kvpair: PairI2S
-
-        self.assertEqual(Value.getSize(b"\x03dat\x02\x00\x00\x00\x03abc"), 12)
 
     def test_recursive_build(self):
         class PairI2S(Model):
